@@ -30,7 +30,7 @@ if($_POST){
     $senhaAntiga = $_POST['senhaAntiga'];
     $senhaNova = $_POST['senhaNova'];
 
-    if (password_verify($senhaAntiga, $usuario->senha AND (filter_var('bob@example.com', FILTER_VALIDATE_EMAIL)!= false)) {  
+    if (password_verify($senhaAntiga, $usuario->senha) AND (filter_var($usuario->email, FILTER_VALIDATE_EMAIL)!= false)) {  
         $usuario->senha = $senhaNova;
         if($usuario->Editar()){
         echo "<div class='alert alert-success alert-dismissable'>";
