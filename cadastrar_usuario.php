@@ -20,16 +20,20 @@ if($_POST){
     $usuario->nome = $_POST['nome'];
     $usuario->idade = $_POST['idade'];
     $usuario->email = $_POST['email']; 
-    $usuario->senha = password_hash($_POST['senha'], PASSWORD_DEFAULT) ;
-    $foto=!empty($_FILES["image"]["name"])
-        ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
-    $usuario->foto = $foto;
+    if(filter_var($usuario->email, FILTER_VALIDATE_EMAIL) != false){
+        $usuario->senha = password_hash($_POST['senha'], PASSWORD_DEFAULT) ;
+        $foto=!empty($_FILES["image"]["name"])
+            ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
+        $usuario->foto = $foto;
 
-    if($usuario->cadastrar()){
+        if($usuario->cadastrar()){
 
-        echo "<div class='alert alert-success'>Usuário cadastrado com sucesso.</div>";
-        echo $usuario->uploadFoto();
+            echo "<div class='alert alert-success'>Usuário cadastrado com sucesso.</div>";
+            echo $usuario->uploadFoto();
+        }
+
     }
+    
  
     else{
         echo "<div class='alert alert-danger'>Não foi possivel cadastrar o usuário.</div>";

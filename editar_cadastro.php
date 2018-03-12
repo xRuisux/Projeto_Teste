@@ -30,7 +30,7 @@ if($_POST){
     $senhaAntiga = $_POST['senhaAntiga'];
     $senhaNova = $_POST['senhaNova'];
 
-    if (password_verify($senhaAntiga, $usuario->senha)) {  
+    if (password_verify($senhaAntiga, $usuario->senha AND (filter_var('bob@example.com', FILTER_VALIDATE_EMAIL)!= false)) {  
         $usuario->senha = $senhaNova;
         if($usuario->Editar()){
         echo "<div class='alert alert-success alert-dismissable'>";
@@ -39,12 +39,12 @@ if($_POST){
         
         }else{
         echo "<div class='alert alert-danger alert-dismissable'>";
-            echo "Não foi possivel atulizar o usuario.";
+            echo "Não foi possivel atualizar o usuario.";
         echo "</div>";
         }
     }else{
         echo "<div class='alert alert-danger alert-dismissable'>";
-            echo "Senha Errada.";
+            echo "Não foi possivel atualizar o usuario.";
         echo "</div>";
     }
 }
