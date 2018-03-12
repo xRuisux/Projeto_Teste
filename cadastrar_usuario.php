@@ -19,7 +19,8 @@ if($_POST){
  
     $usuario->nome = $_POST['nome'];
     $usuario->idade = $_POST['idade'];
-    $usuario->email = $_POST['email'];
+    $usuario->email = $_POST['email']; 
+    $usuario->senha = password_hash($_POST['senha'], PASSWORD_DEFAULT) ;
     $foto=!empty($_FILES["image"]["name"])
         ? sha1_file($_FILES['image']['tmp_name']) . "-" . basename($_FILES["image"]["name"]) : "";
     $usuario->foto = $foto;
@@ -55,10 +56,14 @@ if($_POST){
             <td><input type='text' name='email' class='form-control' /></td>
         </tr>
         <tr>
+            <td>Senha</td>
+            <td><input type='password' name='senha' class='form-control' /></td>
+        </tr>
+        <tr>
             <td>Foto</td>
             <td><input type="file" name="image" /></td>
         </tr>
- 
+            
         <tr>
             <td></td>
             <td>

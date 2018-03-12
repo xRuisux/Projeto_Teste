@@ -14,9 +14,7 @@ $usuario->id = $id;
  
 $usuario->visualizaUm();
  
-?>
 
-<?php 
 
 $pagina_titulo = "Editar Usuario";
 include_once "layout_header.php";
@@ -25,24 +23,28 @@ echo "<div class='right-button-margin'>";
     echo "<a href='index.php' class='btn btn-default pull-right'>Visualizar Usuarios</a>";
 echo "</div>";
 
- ?> 
-
-<?php 
 if($_POST){
- 
     $usuario->nome = $_POST['nome'];
     $usuario->idade = $_POST['idade'];
     $usuario->email = $_POST['email'];
- 
-    if($usuario->Editar()){
+    $senhaAntiga = $_POST['senhaAntiga'];
+    $senhaNova = $_POST['senhaNova'];
+
+    if (password_verify($senhaAntiga, $usuario->senha)) {  
+        $usuario->senha = $senhaNova;
+        if($usuario->Editar()){
         echo "<div class='alert alert-success alert-dismissable'>";
             echo "Usuario atualizado.";
         echo "</div>";
-    }
- 
-    else{
+        
+        }else{
         echo "<div class='alert alert-danger alert-dismissable'>";
             echo "Não foi possivel atulizar o usuario.";
+        echo "</div>";
+        }
+    }else{
+        echo "<div class='alert alert-danger alert-dismissable'>";
+            echo "Senha Errada.";
         echo "</div>";
     }
 }
@@ -65,7 +67,16 @@ if($_POST){
             <td>Email</td>
             <td><input type='text' name='email' value='<?php echo $usuario->email; ?>' class='form-control' /></td>
         </tr>
- 
+        
+        <tr>
+            <td>Senha Antiga</td>
+            <td><input type='password' name='senhaAntiga' value='' class='form-control' /></td>
+        </tr>
+        <tr>
+            <td>Nova Senha</td>
+            <td><input type='password' name='senhaNova' value='' class='form-control' /></td>
+        </tr>
+
         <tr>
             <td></td>
             <td>

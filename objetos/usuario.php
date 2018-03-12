@@ -8,6 +8,7 @@ class Usuario{
     public $nome;
     public $idade;
     public $email;
+    public $senha;
     public $foto;
  
     public function __construct($db){
@@ -17,20 +18,21 @@ class Usuario{
     function cadastrar(){
 
         $query = "INSERT INTO " . $this->nome_tabela . "
-                    SET nome=:nome, idade=:idade, email=:email,
-                        foto=:foto";
+                    SET nome=:nome, idade=:idade, email=:email, senha=:senha, foto=:foto";
  
         $stmt = $this->conn->prepare($query);
 
         $this->nome=htmlspecialchars(strip_tags($this->nome));
         $this->idade=htmlspecialchars(strip_tags($this->idade));
         $this->email=htmlspecialchars(strip_tags($this->email));
+        $this->senha=htmlspecialchars(strip_tags($this->senha));
         $this->foto=htmlspecialchars(strip_tags($this->foto));
  
 
         $stmt->bindParam(":nome", $this->nome);
         $stmt->bindParam(":idade", $this->idade);
         $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":senha", $this->senha);
         $stmt->bindParam(":foto", $this->foto);
 
         if($stmt->execute()){
@@ -71,7 +73,7 @@ class Usuario{
 
     function visualizaUm(){
  
-        $query = "SELECT nome, idade, email, foto FROM " . $this->nome_tabela . " WHERE id = ?
+        $query = "SELECT nome, idade, email, senha, foto FROM " . $this->nome_tabela . " WHERE id = ?
             LIMIT 0,1";
  
         $stmt = $this->conn->prepare( $query );
@@ -83,23 +85,28 @@ class Usuario{
         $this->nome = $linha['nome'];
         $this->idade = $linha['idade'];
         $this->email = $linha['email'];
+        $this->senha = $linha['senha'];
         $this->foto = $linha['foto'];
+
     }
 
     function editar(){
  
-        $query = "UPDATE " . $this->nome_tabela . " SET nome = :nome, idade = :idade, email = :email WHERE id = :id";
+        $query = "UPDATE " . $this->nome_tabela . " SET nome = :nome, idade = :idade, email = :email, senha = :senha WHERE id = :id";
  
         $stmt = $this->conn->prepare($query);
  
         $this->nome=htmlspecialchars(strip_tags($this->nome));
         $this->idade=htmlspecialchars(strip_tags($this->idade));
         $this->email=htmlspecialchars(strip_tags($this->email));
+        $this->senha=htmlspecialchars(strip_tags(password_hash($this->senha, PASSWORD_DEFAULT)));
         $this->id=htmlspecialchars(strip_tags($this->id));
- 
+
+
         $stmt->bindParam(':nome', $this->nome);
         $stmt->bindParam(':idade', $this->idade);
         $stmt->bindParam(':email', $this->email);
+        $stmt->bindParam(':senha', $this->senha);
         $stmt->bindParam(':id', $this->id);
  
         if($stmt->execute()){
