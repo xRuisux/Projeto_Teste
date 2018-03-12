@@ -1,4 +1,5 @@
 <?php
+
 if($_POST){
  
     include_once 'config/db.php';
@@ -9,7 +10,7 @@ if($_POST){
 
     $usuario = new Usuario($db);
      
-    $usuario->id = $_POST['id'];
+    $usuario->id = $_POST['object_id'];
 
     if($usuario->deletar()){
         echo "Usuário deletado.";

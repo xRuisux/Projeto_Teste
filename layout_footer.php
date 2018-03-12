@@ -7,11 +7,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
  
  <script>
-    
+
 $(document).on('click', '.delete-object', function(){
  
     var id = $(this).attr('delete-id');
- 
     bootbox.confirm({
         message: "<h4>Tem certeza?</h4>",
         buttons: {
@@ -25,7 +24,6 @@ $(document).on('click', '.delete-object', function(){
             }
         },
         callback: function (result) {
- 
             if(result==true){
                 $.post('deletar_usuario.php', {
                     object_id: id
